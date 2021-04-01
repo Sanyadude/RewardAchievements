@@ -1,0 +1,21 @@
+## Interface: 90005
+## Title: RewardAchievements
+## Author: Sanyadude
+## Version: 0.0.1
+## DefaultState: Disabled
+## LoadOnDemand: 0
+
+##SavedVariablesPerCharacter: RewardAchievements_Cache
+
+localization.lua
+config.lua
+data.lua
+helper.lua
+
+database.lua
+cache.lua
+main.lua
+ui.lua
+
+commands.lua
+event.lua
