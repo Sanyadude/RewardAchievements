@@ -1,7 +1,7 @@
 ## Interface: 90005
 ## Title: RewardAchievements
 ## Author: Sanyadude
-## Version: 0.0.1
+## Version: 1.0.0
 ## DefaultState: Disabled
 ## LoadOnDemand: 0
 
