@@ -75,13 +75,3 @@ end
 function Main:ShowRewardAchievements()
     Helper:ForEach(Cache:GetRewards(), printLink)
 end
-
-function Main:ShowRewardAchievementsByType(typeOfReward)
-    if typeOfReward == "mount" then
-        Helper:ForEach(Cache:GetMounts(), printLink)
-    end
-end
-
-function Main:Test()
-    print("test")
-end

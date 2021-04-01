@@ -12,7 +12,6 @@ localizedStrings["enUS"] = {
     --Commands
     LIST_OF_COMMANDS = "List of available commands",
     PRINT_REWARD_ACHIEVEMENTS = " - print achievements with reward",
-    PRINT_MOUNT_ACHIEVEMENTS = " - print achievements with mounts as reward",
     UPDATE_ACHIEVEMENTS_INFORMATION = " - update achievements information",
     TOGGLE_LOG = " - toggle log",
     PRINT_HELP = " - print available commands",
@@ -39,7 +38,6 @@ localizedStrings["ruRU"] = {
     --Commands
     LIST_OF_COMMANDS = "Список доступных команд",
     PRINT_REWARD_ACHIEVEMENTS = " - показать достижения с наградами",
-    PRINT_MOUNT_ACHIEVEMENTS = " - показать достижения с транспортом в награду",
     UPDATE_ACHIEVEMENTS_INFORMATION = " - обновить информацию о достижениях",
     TOGGLE_LOG = " - вкл/выкл логирование",
     PRINT_HELP = " - показать список доступных команд",

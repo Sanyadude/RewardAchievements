@@ -11,11 +11,10 @@ local Commands = core.Commands
 local function help()
     print("--")
     Helper:PrintDefault(Localization.LIST_OF_COMMANDS)
-    Helper:PrintCommand("/na reward", Localization.PRINT_REWARD_ACHIEVEMENTS)
-    Helper:PrintCommand("/na mount", Localization.PRINT_MOUNT_ACHIEVEMENTS)
-    Helper:PrintCommand("/na update", Localization.UPDATE_ACHIEVEMENTS_INFORMATION)
-    Helper:PrintCommand("/na log", Localization.TOGGLE_LOG)
-    Helper:PrintCommand("/na help", Localization.PRINT_HELP)
+    Helper:PrintCommand("/ra reward", Localization.PRINT_REWARD_ACHIEVEMENTS)
+    Helper:PrintCommand("/ra update", Localization.UPDATE_ACHIEVEMENTS_INFORMATION)
+    Helper:PrintCommand("/ra log", Localization.TOGGLE_LOG)
+    Helper:PrintCommand("/ra help", Localization.PRINT_HELP)
     print("--")
 end
 
@@ -41,21 +40,12 @@ local function reward()
     Main:ShowRewardAchievements()
 end
 
-local function mount()
-    Helper:PrintDefault(Localization.LIST_OF_MOUNT_ACHIEVEMENTS)
-    Main:ShowRewardAchievementsByType("mount")
-end
-
 --handle / command
 Commands = {
     ["help"] = help,
     ["log"] = toggleLog,
     ["update"] = update,
-    ["reward"] = reward,
-    ["mount"] = mount,
-    ["test"] = function()
-        Main:Test()
-    end
+    ["reward"] = reward
 }
 
 local function HandleSlashCommands(str)
@@ -86,5 +76,5 @@ local function HandleSlashCommands(str)
     end
 end
 
-_G["SLASH_" .. modName .. "1"] = "/na"
+_G["SLASH_" .. modName .. "1"] = "/ra"
 SlashCmdList[modName] = HandleSlashCommands
