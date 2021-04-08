@@ -16,12 +16,37 @@ local TITLES_KEY = Config.DB_KEYS.TITLES
 local TOYS_KEY = Config.DB_KEYS.TOYS
 local OTHER_KEY = Config.DB_KEYS.OTHER
 
+local CACHE_VERSION_KEY = "CACHE_VERSION";
+local CACHE_PARAMETERS_KEY = "CACHE_PARAMETERS"
+
 RewardAchievements_Cache = {}
-local FILTERED_DATA_KEY = "FILTERED_DATA_KEYS"
-RewardAchievements_Cache[FILTERED_DATA_KEY] = {}
+RewardAchievements_Cache[CACHE_PARAMETERS_KEY] = {}
+
+local function resetCacheParameters()
+    local cacheParametersKeys = {
+        REWARDS_KEY,
+        MOUNTS_KEY,
+        PETS_KEY,
+        TITLES_KEY,
+        TOYS_KEY,
+        OTHER_KEY,
+        VALID_KEY,
+        NONVALID_KEY
+    }
+    Helper:ForEach(
+        cacheParametersKeys,
+        function(key)
+            RewardAchievements_Cache[CACHE_PARAMETERS_KEY][key] = {
+                filtered = false,
+                filteredCount = ""
+            }
+        end
+    )
+    Helper:Log("Reseting cache parameters to initial values")
+end
 
 local function filterValidCache(ids, key)
-    if (RewardAchievements_Cache[FILTERED_DATA_KEY][key]) then
+    if (RewardAchievements_Cache[CACHE_PARAMETERS_KEY][key].filtered) then
         return ids
     end
     local validIds = Cache:GetValid()
@@ -41,12 +66,24 @@ local function filterValidCache(ids, key)
     end
     Helper:Log("Save cache for key - " .. key)
     Cache:Set(key, filtered)
-    RewardAchievements_Cache[FILTERED_DATA_KEY][key] = true
+    RewardAchievements_Cache[CACHE_PARAMETERS_KEY][key].filtered = true
+    RewardAchievements_Cache[CACHE_PARAMETERS_KEY][key].filteredCount = #filtered
+
     return filtered
 end
 
 function Cache:ResetFilters()
-    RewardAchievements_Cache[FILTERED_DATA_KEY] = {}
+    resetCacheParameters()
+end
+
+function Cache:ValidateVersion()
+    if (RewardAchievements_Cache[CACHE_VERSION_KEY] ~= Config.CACHE_VERSION) then
+        Helper:Log("Cache data is old. Updating...")
+        RewardAchievements_Cache = {}
+        RewardAchievements_Cache[CACHE_PARAMETERS_KEY] = {}
+        resetCacheParameters()
+        RewardAchievements_Cache[CACHE_VERSION_KEY] = Config.CACHE_VERSION
+    end
 end
 
 function Cache:Get(key, sourceFunc)
@@ -64,8 +101,13 @@ function Cache:Get(key, sourceFunc)
 end
 
 function Cache:Set(key, value)
-    RewardAchievements_Cache[FILTERED_DATA_KEY][key] = false
+    RewardAchievements_Cache[CACHE_PARAMETERS_KEY][key].filtered = false
+    RewardAchievements_Cache[CACHE_PARAMETERS_KEY][key].filteredCount = ""
     RewardAchievements_Cache[key] = value
+end
+
+function Cache:GetCacheParameters()
+    return RewardAchievements_Cache[CACHE_PARAMETERS_KEY]
 end
 
 -- rewards
@@ -95,7 +137,10 @@ end
 
 -- nonvalid
 function Cache:GetNonValid()
-    return Cache:Get(NONVALID_KEY)
+    local result = Cache:Get(NONVALID_KEY)
+    RewardAchievements_Cache[CACHE_PARAMETERS_KEY][NONVALID_KEY].filtered = true
+    RewardAchievements_Cache[CACHE_PARAMETERS_KEY][NONVALID_KEY].filteredCount = #result
+    return result
 end
 
 function Cache:SetNonValid(value)

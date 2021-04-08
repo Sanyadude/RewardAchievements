@@ -1,7 +1,8 @@
 ## Interface: 90005
 ## Title: RewardAchievements
+## Notes: New tab for achievement window with only reward achievements listed
 ## Author: Sanyadude
-## Version: 1.0.0
+## Version: 1.0.1
 ## DefaultState: Disabled
 ## LoadOnDemand: 0
 

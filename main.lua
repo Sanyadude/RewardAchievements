@@ -1,6 +1,7 @@
 local modName, core = ...
 core.Main = {}
 
+local Localization = core.Localization
 local Config = core.Config
 local Helper = core.Helper
 local Cache = core.Cache
@@ -33,8 +34,6 @@ local function isAchievementValid(id)
 end
 
 local function validateAchivements(achievementIds)
-    Helper:PrintDefault("Start achievements validation")
-
     local validAchievements, nonValidAchievements = {}, {}
 
     for key, value in pairs(achievementIds) do
@@ -45,20 +44,23 @@ local function validateAchivements(achievementIds)
         end
     end
 
-    Helper:PrintDefault("Found " .. #validAchievements .. " valid achievements")
-    Helper:PrintDefault("Found " .. #nonValidAchievements .. " nonvalid achievements")
     return validAchievements, nonValidAchievements
 end
 
 local function updateCache()
     local achievementIds = Cache:GetRewards(true)
     local validAchievementsIds, nonValidAchievementsIds = validateAchivements(achievementIds)
+
+    Helper:PrintDefault(Localization.FOUND_VALID_ACHIEVEMENTS .. #validAchievementsIds)
+    Helper:PrintDefault(Localization.FOUND_NONVALID_ACHIEVEMENTS .. #nonValidAchievementsIds)
+
     Cache:SetValid(validAchievementsIds)
     Cache:SetNonValid(nonValidAchievementsIds)
     Cache:ResetFilters()
 end
 
 function Main:InitCache()
+    Cache:ValidateVersion()
     if ((not Cache:GetValid()) or (not Cache:GetNonValid())) then
         updateCache()
     end

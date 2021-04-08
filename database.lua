@@ -101,7 +101,7 @@ function Database:GetAllTitleAchievementIds()
 
         return filtered
     end
-    
+
     return getCacheOrSource(TITLES_KEY, sourceFunc)
 end
 

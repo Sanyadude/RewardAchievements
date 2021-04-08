@@ -9,20 +9,20 @@ local function formatText(color, text)
 end
 
 function Helper:Print(...)
-    local addonPrefix = formatText(Config.colors.printColorAddonNameRGB, modName .. ":")
+    local addonPrefix = formatText(Config.colors.PRINT_COLOR_ADDON_NAME_RGB, modName .. ":")
     DEFAULT_CHAT_FRAME:AddMessage(string.join(" ", addonPrefix, tostringall(...)))
 end
 
 function Helper:PrintDefault(text)
-    local textColor = Config.colors.printColorTextRGB
+    local textColor = Config.colors.PRINT_COLOR_TEXT_RGB
     local defaultFormatText = formatText(textColor, text)
     Helper:Print(defaultFormatText)
 end
 
 function Helper:PrintCommand(command, description)
-    local commandColor = Config.colors.printColorAddonSlashCommandRGB
+    local commandColor = Config.colors.PRINT_COLOR_ADDON_COMMAND_RGB
     local commandFormatText = formatText(commandColor, command)
-    local textColor = Config.colors.printColorTextRGB
+    local textColor = Config.colors.PRINT_COLOR_TEXT_RGB
     local defaultFormatDescription = formatText(textColor, description)
     Helper:Print(commandFormatText .. defaultFormatDescription)
 end

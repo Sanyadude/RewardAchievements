@@ -22,6 +22,8 @@ localizedStrings["enUS"] = {
     UPDATE_FINISHED = "Achievements updated",
     LIST_OF_REWARD_ACHIEVEMENTS = "List of achievements with rewards",
     LIST_OF_MOUNT_ACHIEVEMENTS = "List of achievements with mounts as reward",
+    FOUND_VALID_ACHIEVEMENTS = "Valid achievements being found - ",
+    FOUND_NONVALID_ACHIEVEMENTS = "Nonvalid achievements being found - ",
     --UI
     LEFT_PANEL_REWARD_BUTTON_TEXT = "Rewards",
     LEFT_PANEL_MOUNT_BUTTON_TEXT = "Mounts",
@@ -48,6 +50,8 @@ localizedStrings["ruRU"] = {
     UPDATE_FINISHED = "Достижения обновлены",
     LIST_OF_REWARD_ACHIEVEMENTS = "Список достижений с наградами",
     LIST_OF_MOUNT_ACHIEVEMENTS = "Список достижений с транспортом в награду",
+    FOUND_VALID_ACHIEVEMENTS = "Найдено доступных достижений - ",
+    FOUND_NONVALID_ACHIEVEMENTS = "Найдено недоступных достижений - ",
     --UI
     LEFT_PANEL_REWARD_BUTTON_TEXT = "Награды",
     LEFT_PANEL_MOUNT_BUTTON_TEXT = "Транспорт",
