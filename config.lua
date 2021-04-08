@@ -4,9 +4,9 @@ core.Config = {}
 local Config = core.Config
 
 Config.colors = {
-    printColorAddonNameRGB = "FF0000",
-    printColorTextRGB = "FFFF00",
-    printColorAddonSlashCommandRGB = "00CC66"
+    PRINT_COLOR_ADDON_NAME_RGB = "FF0000",
+    PRINT_COLOR_TEXT_RGB = "FFFF00",
+    PRINT_COLOR_ADDON_COMMAND_RGB = "00CC66"
 }
 
 Config.DB_KEYS = {
@@ -20,6 +20,8 @@ Config.DB_KEYS = {
     TOYS = "TOYS",
     OTHER = "OTHER"
 }
+
+Config.CACHE_VERSION = '1.0.1'
 
 Config.maxAchievementId = 14924
 

@@ -108,9 +108,24 @@ local function filterBySearchText(ids)
     return filteredByText
 end
 
+local function updateCategoryButtonText(filterId, count)
+    Helper:ForEach(
+        UI.leftPanel.buttons,
+        function(button)
+            if (button.filterId == filterId) then
+                local text = button.originalText
+                if (count ~= "") then
+                    local textWithCount = text .. " (" .. count .. ")"
+                    button.label:SetText(textWithCount)
+                end
+            end
+        end
+    )
+end
+
 local function getFilteredAchievements()
     local filterId = UI.activeFilterId
-    local result = nil
+    local result = {}
     if (filterId == 1) then
         result = Cache:GetRewards()
     elseif (filterId == 2) then
@@ -126,6 +141,7 @@ local function getFilteredAchievements()
     elseif (filterId == 10) then
         result = Cache:GetNonValid()
     end
+    updateCategoryButtonText(filterId, #result)
     if (result) then
         local search = filterBySearchText(result)
         local sorted = sortAchievements(search)
@@ -680,14 +696,23 @@ local function createTabButton()
     return tabButton
 end
 
-local function createLeftPanelButton(text, filterId, parent, anchor)
+local function createLeftPanelButton(text, filterId, filterKey, parent, anchor)
     local button =
         CreateFrame("Button", UI.name .. "CategoriesContainerButton" .. filterId, parent, "AchievementCategoryTemplate")
     button:SetPoint("TOPLEFT", anchor, "BOTTOMLEFT", 0, 0)
     button:SetPoint("TOPRIGHT", anchor, "BOTTOMRIGHT", 0, 0)
-    button.label:SetText(text)
+    button.originalText = text
     button:SetScript("OnClick", LeftPanelButton_OnClick)
     button.filterId = filterId
+    button.filterKey = filterKey
+    button.label:SetText(text)
+
+    local cacheParams = Cache:GetCacheParameters()
+    local count = cacheParams[filterKey].filteredCount
+    if (count ~= "") then
+        local textWithCount = text .. " (" .. count .. ")"
+        button.label:SetText(textWithCount)
+    end
 
     table.insert(parent.buttons, button)
 
@@ -696,13 +721,13 @@ end
 
 local function fillLeftPanelWithButtons(leftPanel)
     local buttons = {
-        {text = Localization.LEFT_PANEL_REWARD_BUTTON_TEXT, filterId = 1},
-        {text = Localization.LEFT_PANEL_MOUNT_BUTTON_TEXT, filterId = 2},
-        {text = Localization.LEFT_PANEL_PET_BUTTON_TEXT, filterId = 3},
-        {text = Localization.LEFT_PANEL_TITLE_BUTTON_TEXT, filterId = 4},
-        {text = Localization.LEFT_PANEL_TOY_BUTTON_TEXT, filterId = 5},
-        {text = Localization.LEFT_PANEL_OTHER_BUTTON_TEXT, filterId = 9},
-        {text = Localization.LEFT_PANEL_NONVALID_BUTTON_TEXT, filterId = 10}
+        {text = Localization.LEFT_PANEL_REWARD_BUTTON_TEXT, filterId = 1, filterKey = Config.DB_KEYS.REWARDS},
+        {text = Localization.LEFT_PANEL_MOUNT_BUTTON_TEXT, filterId = 2, filterKey = Config.DB_KEYS.MOUNTS},
+        {text = Localization.LEFT_PANEL_PET_BUTTON_TEXT, filterId = 3, filterKey = Config.DB_KEYS.PETS},
+        {text = Localization.LEFT_PANEL_TITLE_BUTTON_TEXT, filterId = 4, filterKey = Config.DB_KEYS.TITLES},
+        {text = Localization.LEFT_PANEL_TOY_BUTTON_TEXT, filterId = 5, filterKey = Config.DB_KEYS.TOYS},
+        {text = Localization.LEFT_PANEL_OTHER_BUTTON_TEXT, filterId = 9, filterKey = Config.DB_KEYS.OTHER},
+        {text = Localization.LEFT_PANEL_NONVALID_BUTTON_TEXT, filterId = 10, filterKey = Config.DB_KEYS.NONVALID}
     }
 
     leftPanel.buttons = {}
@@ -710,11 +735,11 @@ local function fillLeftPanelWithButtons(leftPanel)
     for i = 1, #buttons do
         local button = buttons[i]
         if (not prevButton) then
-            prevButton = createLeftPanelButton(button.text, button.filterId, leftPanel, leftPanel)
+            prevButton = createLeftPanelButton(button.text, button.filterId, button.filterKey, leftPanel, leftPanel)
             prevButton:SetPoint("TOPLEFT", leftPanel, "TOPLEFT", -4, 0)
             prevButton:SetPoint("TOPRIGHT", leftPanel, "TOPRIGHT", 4, 0)
         else
-            prevButton = createLeftPanelButton(button.text, button.filterId, leftPanel, prevButton)
+            prevButton = createLeftPanelButton(button.text, button.filterId, button.filterKey, leftPanel, prevButton)
         end
     end
 end
@@ -786,7 +811,6 @@ local function createContainer()
     local scrollBar = CreateFrame("Slider", "$parentScrollBar", scrollFrame, "HybridScrollBarTemplate")
     scrollBar:SetPoint("TOPLEFT", scrollFrame, "TOPRIGHT", 1, -16)
     scrollBar:SetPoint("BOTTOMLEFT", scrollFrame, "BOTTOMRIGHT", 1, 12)
-    scrollBar:HookScript("OnValueChanged", ScrollBar_OnValueChanged)
 
     scrollBar.Show = function(self)
         container:SetWidth(ADDON_CONTAINER_WIDTH)
@@ -836,6 +860,7 @@ local function setCustomHandlers()
     hooksecurefunc("AchievementFrameFilterDropDownButton_OnClick", updateAchievementsAndResetScroll)
     hooksecurefunc("AchievementFrame_ShowSearchPreviewResults", hideSearchPreview)
     AchievementFrame.searchBox:HookScript("OnTextChanged", updateAchievementsAndResetScroll)
+    UI.container.scrollBar:HookScript("OnValueChanged", ScrollBar_OnValueChanged)
 
     hookDefaultTabsClicks()
 end
