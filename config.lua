@@ -21,9 +21,10 @@ Config.DB_KEYS = {
     OTHER = "OTHER"
 }
 
-Config.CACHE_VERSION = '1.0.1'
+Config.CACHE_VERSION = '1.0.2'
 
-Config.maxAchievementId = 14924
+Config.minAchievementId = 0
+Config.maxAchievementId = 15198
 
 Config.log = false
 Config.useAddonNameAsTabName = false
