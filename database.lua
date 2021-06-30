@@ -55,7 +55,7 @@ end
 function Database:GetAllIds()
     local sourceFunc = function()
         local achievementIds = {}
-        for i = 0, Config.maxAchievementId do
+        for i = Config.minAchievementId, Config.maxAchievementId do
             local id = GetAchievementInfo(i)
             if (id ~= nil) then
                 table.insert(achievementIds, id)
