@@ -1,4 +1,4 @@
-## Interface: 90100
+## Interface: 90200
 ## Title: RewardAchievements
 ## Notes: New tab for achievement window with only reward achievements listed
 ## Author: Sanyadude
