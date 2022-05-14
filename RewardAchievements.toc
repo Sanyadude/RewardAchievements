@@ -2,7 +2,7 @@
 ## Title: RewardAchievements
 ## Notes: New tab for achievement window with only reward achievements listed
 ## Author: Sanyadude
-## Version: 1.0.1
+## Version: 1.0.3
 ## DefaultState: Disabled
 ## LoadOnDemand: 0
 
